@@ -135,6 +135,7 @@ void hw_init(void)
 #ifdef CONFIG_SCLK
     sclk_enable();
 #endif
+
     /*
      * Configure the PIO controller 
      */
@@ -146,16 +147,15 @@ void hw_init(void)
      */
 #ifdef CONFIG_DEBUG
     dbgu_init(BAUDRATE(MASTER_CLOCK, 115200));
-    dbgu_print("Start AriaBoot...\n\r");
 #endif
 
 #ifdef CONFIG_DDR2
     /*
      * Configure DDRAM Controller 
      */
-    dbg_log(1, "Init DDR... ");
+    //dbg_log(1, "Init DDR... ");
     ddramc_hw_init();
-    dbg_log(1, "Done!\n\r");
+    //dbg_log(1, "Done!\n\r");
 #endif                          /* CONFIG_DDR2 */
 }
 #endif                          /* CONFIG_HW_INIT */

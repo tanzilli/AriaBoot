@@ -671,7 +671,7 @@ SdCard *MEDSdcard_GetDriver(unsigned int slot)
 }
 #endif
 
-unsigned int load_SDCard(void *dst)
+unsigned int load_SDCard(void *dst,char *os_image_name)
 {
     DWORD dwAddress;
 
@@ -689,10 +689,10 @@ unsigned int load_SDCard(void *dst)
         return 0;
     }
 
-    res = f_open(&fileObject, OS_IMAGE_NAME, FA_OPEN_EXISTING | FA_READ);
+    res = f_open(&fileObject, os_image_name, FA_OPEN_EXISTING | FA_READ);
 
     if (res != FR_OK) {
-        dbg_log(0, "*** f_open, File name: [%s]: error!\n\r", OS_IMAGE_NAME);
+        dbg_log(0, "*** f_open, File name: [%s]: error!\n\r", os_image_name);
         return 0;
     }
 

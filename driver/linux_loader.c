@@ -135,57 +135,6 @@ char *strcpy(char *dst, const char *src);
 
 void *memcpy(void *dst, const void *src, size_t cnt);
 
-#if 0
-#ifndef CONFIG_THUMB
-static inline unsigned int get_cp15(void)
-{
-    unsigned int value;
-
-    __asm__ __volatile__("mrc p15, 0, %0, c1, c0, 0":"=r"(value));
-
-    return value;
-}
-
-static inline void set_cp15(unsigned int value)
-{
-    __asm__ __volatile__("mcr p15, 0, %0, c1, c0, 0"::"r"(value));
-}
-
-static inilne unsigned int get_cpsr(void)
-{
-    unsigned int value;
-
-    __asm__ __volatile__("mrs %0, cpsr":"=r"(value));
-
-    return value;
-}
-
-static inline void set_cpsr(unsigned int value)
-{
-    __asm__ __volatile__("msr cpsr_c, %1"::"r"(value));
-}
-
-#else
-static inline unsigned int get_cp15(void);
-
-static inline void set_cp15(unsigned int value);
-
-static inilne unsigned int get_cpsr(void);
-
-static inline void set_cpsr(unsigned int value);
-#endif
-
-#endif
-
-#if 0
-static inline unsigned int get_cp15(void);
-
-static inline void set_cp15(unsigned int value);
-
-static inline unsigned int get_cpsr(void);
-
-static inline void set_cpsr(unsigned int value);
-#endif
 extern inline void disable_icache(void);
 
 extern inline void disable_dcache(void);
@@ -249,12 +198,6 @@ void clean_environment()
      * Disable ARM Core interrupt 
      */
     disable_irq();
-#if 0
-    tmp = get_cpsr;
-    tmp |= 0xc0;
-    set_cpsr(tmp);
-#endif
-
     /*
      * Turen off I/D cache 
      */
@@ -264,37 +207,8 @@ void clean_environment()
      * Flush I/D cache 
      */
     flush_idcache();
-
-#if 0
-    /*
-     * disable interrupt 
-     */
-    dbg_log(1, "Disable interrupt...\n\r");
-    __asm__ __volatile__("mrs %0, cpsr\n"
-                         "orr %1, %0, #0xc0\n"
-                         "msr cpsr_c, %1":"=r"(old), "=r"(tmp)
-                         ::"memory");
-
-#define C1_IC (1 << 12)         /* ICache OFF/ON */
-#define C1_DC (1 << 2 )         /* DCache OFF/ON */
-    dbg_log(1, "Process Cache ...\n\r");
-    /*
-     * turn off I/D cache 
-     */
-    __asm__ __volatile__("mrc p15, 0, %0, c1, c0, 0":"=r"(i));
-
-    i &= ~(C1_DC | C1_IC);
-    __asm__ __volatile__("mcr p15, 0, %0, c1, c0, 0"::"r"(i));
-
-    i = 0;
-    __asm__ __volatile__("mcr p15, 0, %0, c7, c7, 0"::"r"(i));
-
-    dbg_log(1, "End clean environment...\n\r");
-#endif
 #endif
 }
-
-//struct tag *tags = (struct tag *)(OS_MEM_BANK + 0x100);
 
 void setup_tags()
 {
@@ -351,26 +265,30 @@ void setup_tags()
     tag->hdr.size = 0;
 }
 
-void LoadLinux()
+void LoadApp(char *appfilename) {
+	void (*theApp)(void);
+    unsigned int load_SDCard(void *dst, char *os_image_name);
+
+    if (load_SDCard((void *)0x20000000,appfilename)==0) {
+		return;
+	}
+
+    theApp = (void (*)(void))0x20000000;
+    dbg_log(4, "Run %s at %x\n\r",appfilename,theApp);
+	theApp();
+}
+
+void LoadLinux(char *image_name)
 {
     unsigned long ep, load_addr, len;
-    unsigned int load_SDCard(void *dst);
+    unsigned int load_SDCard(void *dst, char *os_image_name);
     void (*theKernel) (int zero, int arch, unsigned int params);
 
     image_header_t *hdr;
 
-#ifdef CONFIG_DATAFLASH
-    load_df(AT91C_SPI_PCS_DATAFLASH, IMG_ADDRESS, IMG_SIZE, JUMP_ADDR);
-#endif
-#ifdef CONFIG_NANDFLASH
-    read_nandflash((unsigned char *)JUMP_ADDR, (unsigned long)IMG_ADDRESS,
-                   (int)IMG_SIZE);
-#endif
-#ifdef CONFIG_SDCARD
-    if (load_SDCard((void *)JUMP_ADDR)==0) {
+    if (load_SDCard((void *)JUMP_ADDR,image_name)==0) {
 		return;
 	}
-#endif
 
     hdr = (image_header_t *) JUMP_ADDR;
     if (ntohl(hdr->ih_magic) != IMAGE_MAGIC) {
@@ -384,14 +302,7 @@ void LoadLinux()
     ep = ntohl(hdr->ih_ep);
     dbg_log(0, "Image size: %d, load_addr: %x, ep: %x\n\r", len, load_addr, ep);
 
-    //if (hdr->ih_comp != 0) {
-    //    dbg_log(1, "Compressed U-Boot Image has not been supported yet!\n\r");
-    //    return;
-    //}
-
     theKernel = (void (*)(int, int, unsigned int))ep;
-
-    //clean_environment();
 
     dbg_log(1,
             "relocating linux kernel, dst: %x, src: %x, len: %d, machid: %d\n\r",
