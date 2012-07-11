@@ -77,7 +77,7 @@ int ddram_init(unsigned int ddram_controller_address,
         ba_offset += ((ddram_config->ddramc_cr & AT91C_DDRC2_NR) >> 2) + 11; // number of row bits
     ba_offset += (ddram_config->ddramc_mdr & AT91C_DDRC2_DBW) ? 1 : 2;   // bus width
 
-    dbg_log(3, " ba_offset = %x ... ", ba_offset);
+    //dbg_log(3, " ba_offset = %x ... ", ba_offset);
 
     // Step 1: Program the memory device type
     write_ddramc(ddram_controller_address, HDDRSDRC2_MDR,
