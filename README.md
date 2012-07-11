@@ -9,9 +9,13 @@ Sergio Tanzilli (c) 2012 tanzilli@acmesystems.it
 
 # Credits and copyrights
 
-AriaBoot is based on Atmel AT91Bootstrap 5 series version 1.2
+AriaBoot is based on Atmel **AT91Bootstrap 5 series version 1.2**
+and is provided by Acme Systems "as is" in the same terms
+of the original Atmel disclaimer listed below.
 
-# Original Atmel copyright notice
+* [AT91Boostrap home page](http://www.at91.com/linux4sam/bin/view/Linux4SAM/AT91Bootstrap)
+
+##Original Atmel copyright notice
 
 <pre>
 <code>
