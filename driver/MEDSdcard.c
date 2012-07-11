@@ -685,14 +685,14 @@ unsigned int load_SDCard(void *dst,char *os_image_name)
 
     res = f_mount(0, &fs);
     if (res != FR_OK) {
-        dbg_log(0, "*** f_mount: error!\n\r");
+        dbg_log(0, "SD card mount error !\n\r");
         return 0;
     }
 
     res = f_open(&fileObject, os_image_name, FA_OPEN_EXISTING | FA_READ);
 
     if (res != FR_OK) {
-        dbg_log(0, "*** f_open, File name: [%s]: error!\n\r", os_image_name);
+        dbg_log(0, "File %s not found !\n\r", os_image_name);
         return 0;
     }
 
@@ -705,7 +705,7 @@ unsigned int load_SDCard(void *dst,char *os_image_name)
     } while (ByteRead >= CHUNK_SIZE);
 
     if (res != FR_OK) {
-        dbg_log(0, "*** f_read: error!\n\r");
+        dbg_log(0, "Read file error !\n\r");
         while (0) ;
     }
 #if !defined(at91sam9g10)
