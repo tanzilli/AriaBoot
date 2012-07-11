@@ -3,7 +3,6 @@
 # First, run xxx_defconfig
 # Then, `make menuconfig' if needed
 #
-CROSS_COMPILE=/home/tanzilli/CodeSourcery/2010q1/bin/arm-none-eabi-
 TOPDIR=$(shell pwd)
 
 CONFIG_CONFIG_IN=Config.in
@@ -88,7 +87,8 @@ else
 ##  Have DOT Config
 #
 
-CROSS_COMPILE=/home/tanzilli/CodeSourcery/2010q1/bin/arm-none-eabi-
+#CROSS_COMPILE=/home/$(USER)/CodeSourcery/2010q1/bin/arm-none-eabi-
+CROSS_COMPILE=arm-linux-gnueabi-
 
 ifeq ($(CROSS_COMPILE),)
 $(error Environment variable "CROSS_COMPILE" must be defined!)
