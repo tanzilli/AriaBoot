@@ -99,12 +99,12 @@ int main(void)
 
 	// First messages on the debug port
     dbgu_print("\n\r");
-    dbgu_print("AriaBoot Version 0.18\n\r");
+    dbgu_print("AriaBoot Version 0.19\n\r");
 
 	// Load the ethernet MAC address from macaddress.txt
     if (load_SDCard(mac_buffer,"macaddr.txt")==1) {
 		mac_buffer[17]=0;
-		dbg_log(0,"Ethernet MAC address: %s\n\r",mac_buffer);
+		dbg_log(0,"Load MAC address from macaddr.txt\n\r");
 
 		mac_address[0]=(c2b(mac_buffer[0])<<4)+c2b(mac_buffer[1]);
 		mac_address[1]=(c2b(mac_buffer[3])<<4)+c2b(mac_buffer[4]);
@@ -113,7 +113,7 @@ int main(void)
 		mac_address[4]=(c2b(mac_buffer[12])<<4)+c2b(mac_buffer[13]);
 		mac_address[5]=(c2b(mac_buffer[15])<<4)+c2b(mac_buffer[16]);
 	} else {
-	    dbgu_print("Set a dummy MAC address\n\r");
+	    dbg_log(0,"Set a dummy MAC address\n\r");
 		mac_address[0]=0x00;
 		mac_address[1]=0x04;
 		mac_address[2]=0x25;
