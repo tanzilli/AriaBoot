@@ -13,6 +13,7 @@ AriaBoot is based on Atmel AT91Bootstrap 5 series version 1.2
 
 # Original Atmel copyright notice
 
+<pre>
 <code>
 /* ----------------------------------------------------------------------------
  *         ATMEL Microcontroller Software Support  -  ROUSSET  -
@@ -42,3 +43,4 @@ AriaBoot is based on Atmel AT91Bootstrap 5 series version 1.2
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 </code>
+</pre>
