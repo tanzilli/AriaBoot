@@ -99,7 +99,8 @@ int main(void)
 
 	// First messages on the debug port
     dbgu_print("\n\r");
-    dbgu_print("AriaBoot Version 0.19\n\r");
+    dbgu_print("AriaBoot Version 0.24\n\r");
+    dbgu_print("Acme Systems srl (c) 2012 - http://www.acmesystems.it\n\r");
 
 	// Load the ethernet MAC address from macaddress.txt
     if (load_SDCard(mac_buffer,"macaddr.txt")==1) {
@@ -123,7 +124,7 @@ int main(void)
 	}
 	
     // Set the Ethernet MAC address
-	dbg_log(0,"Ethernet MAC address: %x:%x:%x:%x:%x:%x\n\r",
+	dbg_log(0,"Ethernet MAC address will be: %x:%x:%x:%x:%x:%x\n\r",
 		mac_address[0],  mac_address[1],  mac_address[2],
 		mac_address[3],  mac_address[4],  mac_address[5]);
 
@@ -138,20 +139,19 @@ int main(void)
 	SA1H_value=	(unsigned int)mac_address[5] << 8  | 
 				(unsigned int)mac_address[4];
 
-	// Save the MAC address
+	// Save the MAC address on the Atmel registers
 	writel(SA1L_value,AT91C_EMACB0_SA1L);
 	writel(SA1H_value,AT91C_EMACB0_SA1H);
 
 	// Search for Linux uImage...
-    dbgu_print("Read and run the Linux (uImage) from microSD card ...\n\r");
+    dbgu_print("Search for the Linux image (uImage) on SD card ...\n\r");
     LoadLinux("uImage");
-    dbgu_print("Linux not found !\n\r\n\r");
-    dbgu_print("Read and run an user application (userapp.bin) from microSD card ...\n\r");
 
 	// ..or for an user application
+    dbgu_print("Search for an user application (userapp.bin) on SD card ...\n\r");
     LoadApp("userapp.bin");
-    dbgu_print("User application not found !\n\r\n\r");
-    dbgu_print("Loop forever...\n\r\n\r");
+
+    dbgu_print("Nothing to do. Forever loop...\n\r");
 	while(1);
 	return 0;
 }
