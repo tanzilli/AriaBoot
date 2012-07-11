@@ -1,0 +1,2 @@
+v0.24
+First release that reads the file macaddr.txt to set the MAC address
