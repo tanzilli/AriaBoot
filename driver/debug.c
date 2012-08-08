@@ -86,8 +86,8 @@ int dbg_log(const char level, const char *fmt_str, ...)
 
     short num = 0;
 
-    if (level > BOOTSTRAP_DEBUG_LEVEL)
-        return 0;
+    //if (level > BOOTSTRAP_DEBUG_LEVEL)
+    //    return 0;
 
     va_start(ap, fmt_str);
     while (*fmt_str != 0) {
