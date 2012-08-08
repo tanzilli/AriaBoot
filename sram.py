@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import serial
 import time
 import sys
@@ -7,33 +5,11 @@ import getopt
 import string 
 from xmodem import XMODEM
 
-try:
-	opts, args = getopt.getopt(sys.argv[1:], "f:d:")
-except getopt.GetoptError, err:
-	print str(err) 
-	sys.exit(2)
-
-
-for argument, value in opts:
-	if argument == "-f":
-		filename = value
-	elif argument == "-d":
-		serialdevice = value
-	else:
-		assert False, "Unhandled option"
-
 print "Aria Loader - ISP utility for the Aria Module"
-print "Version: 0.01"
+print "Version: 0.02"
 
-
-try:
-	print "--- Filename: " + filename
-	print "--- Serial device: " + serialdevice
-except:
-	print "--- Example of use:"
-	print "./loader.py -f filename -d /dev/ttyUSB0"
-	sys.exit(1)
-
+filename = "binaries/at91sam9x5ek-sdcardboot-3.1.bin"
+serialdevice = "/dev/ttyUSB0"
 
 #Read the original executable file to send
 try:
