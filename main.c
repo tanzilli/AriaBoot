@@ -74,6 +74,27 @@ unsigned char c2b(unsigned char value) {
 	return 0;
 }
 
+/***************************************************
+  Memory tests
+****************************************************/
+
+void u32_to_ascii(char *buffer,unsigned int value) {
+	int i;
+	int shift;
+	int nibble;
+
+	shift=28;
+	for (i=0;i<8;i++) {
+		nibble=(value>>shift)&0x0F;
+		if (nibble<0xA) nibble=nibble+'0';
+		else nibble=nibble-0x0A+'A';
+		buffer[i]=nibble;
+		shift-=4;
+	}  
+	buffer[i]=0;
+}
+
+
 int main(void)
 {
 	// Dummy buffer to load the MAC address from file
@@ -99,7 +120,7 @@ int main(void)
 
 	// First messages on the debug port
     dbgu_print("\n\r");
-    dbgu_print("AriaBoot Version 0.24\n\r");
+    dbgu_print("AriaBoot Version 0.24-rc3\n\r");
     dbgu_print("Acme Systems srl (c) 2012 - http://www.acmesystems.it\n\r");
 
 	// Load the ethernet MAC address from macaddress.txt
