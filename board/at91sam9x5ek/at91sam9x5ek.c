@@ -189,23 +189,24 @@ void ddramc_hw_init(void)
     ddram_config.ddramc_rtr = 0x411;    /* Refresh timer: 7.8125us */
 
     /* One clock cycle @ 133 MHz = 7.5 ns */
-    ddram_config.ddramc_t0pr = (AT91C_DDRC2_TRAS_6 |    //  6 * 7.5 = 45   ns
-                                AT91C_DDRC2_TRCD_2 |    //  2 * 7.5 = 15   ns
-                                AT91C_DDRC2_TWR_2 |     //  2 * 7.5 = 15   ns
-                                AT91C_DDRC2_TRC_8 |     //  8 * 7.5 = 60   ns
-                                AT91C_DDRC2_TRP_2 |     //  2 * 7.5 = 15   ns
-                                AT91C_DDRC2_TRRD_2 |    //  2 * 7.5 = 15   ns (x16 memory)
-                                AT91C_DDRC2_TWTR_2 |    //  2 clock cycles min
-                                AT91C_DDRC2_TMRD_2);    //  2 clock cycles
+    ddram_config.ddramc_t0pr = (AT91C_DDRC2_TRAS_6 |    //  6 * 7.5 = 45   ns (ELPIDA 45ns)
+                                AT91C_DDRC2_TRCD_2 |    //  2 * 7.5 = 15   ns (ELPIDA 12.5 ns)
+                                AT91C_DDRC2_TWR_2 |     //  2 * 7.5 = 15   ns (?)
+                                AT91C_DDRC2_TRC_8 |     //  8 * 7.5 = 60   ns (ELPIDA 57.5 ns)
+                                AT91C_DDRC2_TRP_2 |     //  2 * 7.5 = 15   ns (ELPIDA 12.5 ns)
+                                AT91C_DDRC2_TRRD_2 |    //  2 * 7.5 = 15   ns (ELPIDA 10 ns) (x16 memory)
+                                AT91C_DDRC2_TWTR_2 |    //  2 clock cycles min (?)
+                                AT91C_DDRC2_TMRD_2);    //  2 clock cycles (?)
 
-    ddram_config.ddramc_t1pr = (AT91C_DDRC2_TXP_2 |     //  2 clock cycles
-                                200 << 16 |             //  200 clock cycles
+    ddram_config.ddramc_t1pr = (AT91C_DDRC2_TXP_2 |     //  2 clock cycles (?)
+                                200 << 16 |             //  200 clock cycles (?)
                                 19 << 8 |               //  19 * 7.5 = 142.5 ns ( > 128 + 10 ns)
-                                AT91C_DDRC2_TRFC_18);   //  18 * 7.5 = 135   ns (must be 128 ns for 1Gb DDR)
+                                AT91C_DDRC2_TRFC_18);   //  18 * 7.5 = 135   ns (Elpida 195 ns)
 
-    ddram_config.ddramc_t2pr = (AT91C_DDRC2_TFAW_7 |	//  7 * 7.5 = 52.5 ns
-    				AT91C_DDRC2_TRTP_2 |    //  2 clock cycles min
-                                AT91C_DDRC2_TRPA_3 |    //  3 * 7.5 = 22.5 ns
+    ddram_config.ddramc_t2pr = (AT91C_DDRC2_TFAW_7 |	//  7 * 7.5 = 52.5 ns (Elpida 45 ns)
+    							AT91C_DDRC2_TRTP_2 |    //  2 clock cycles min
+
+                                AT91C_DDRC2_TRPA_3 |    //  3 * 7.5 = 22.5 ns (Elpida 12.5 ns)
                                 AT91C_DDRC2_TXARDS_7 |  //  7 clock cycles
                                 AT91C_DDRC2_TXARD_2);   //  2 clock cycles
 
