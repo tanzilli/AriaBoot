@@ -18,5 +18,6 @@ binaries
 *~
 *.orig
 *.o
+*.pyc
 tags
 *.swp
