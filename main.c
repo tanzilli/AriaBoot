@@ -120,7 +120,7 @@ int main(void)
 
 	// First messages on the debug port
     dbgu_print("\n\r");
-    dbgu_print("AriaBoot Version 0.24-rc3\n\r");
+    dbgu_print("AriaBoot Version 0.25\n\r");
     dbgu_print("Acme Systems srl (c) 2012 - http://www.acmesystems.it\n\r");
 
 	// Load the ethernet MAC address from macaddress.txt
