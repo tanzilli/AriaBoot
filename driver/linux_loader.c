@@ -313,6 +313,12 @@ void LoadLinux(char *image_name)
     dbg_log(1, "... %d bytes data transferred!\n\r", len);
 
     setup_tags();
+
+	// Carica il Device tree
+    if (load_SDCard((void *)OS_MEM_BANK + 0x100,"ariag25.dtb")==0) {
+		return;
+	}
+
     dbg_log(1, "\n\rStarting linux kernel ..., machid: %d, tags: %x\n\r\n\r",
             MACH_TYPE, (OS_MEM_BANK + 0x100));
 
