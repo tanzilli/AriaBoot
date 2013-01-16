@@ -120,8 +120,21 @@ int main(void)
 
 	// First messages on the debug port
     dbgu_print("\n\r");
-    dbgu_print("AriaBoot Version 0.25\n\r");
-    dbgu_print("Acme Systems srl (c) 2012 - http://www.acmesystems.it\n\r");
+    dbgu_print("AriaBoot Version 0.26\n\r");
+    dbgu_print("Acme Systems srl (c) 2013 - http://www.acmesystems.it\n\r");
+
+    // Avoid boot problems with RTC battery backup
+	// See http://lists.infradead.org/pipermail/linux-arm-kernel/2012-June/105428.html
+
+	//dbg_log(0,"RTC_SR %x\n\r",readl(AT91C_RTC_SR));
+	//dbg_log(0,"RTC_IMR %x\n\r",readl(AT91C_RTC_IMR));
+    writel(0x1F,AT91C_RTC_SCCR);
+	//dbg_log(0,"RTC_SR %x\n\r",readl(AT91C_RTC_SR));
+	//dbg_log(0,"RTC_IMR %x\n\r",readl(AT91C_RTC_IMR));
+	writel(readl(AT91C_RTC_CR)&~(AT91C_RTC_UPDTIM|AT91C_RTC_UPDCAL),AT91C_RTC_CR);
+	//dbg_log(0,"RTC_SR %x\n\r",readl(AT91C_RTC_SR));
+	//dbg_log(0,"RTC_IMR %x\n\r",readl(AT91C_RTC_IMR));
+    //writel(0x1F,AT91C_RTC_IDR);
 
 	// Load the ethernet MAC address from macaddress.txt
     if (load_SDCard(mac_buffer,"macaddr.txt")==1) {
