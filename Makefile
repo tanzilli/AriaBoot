@@ -230,7 +230,7 @@ INCL=board/$(BOARD)
 #AT91_CUSTOM_FLAGS:=-mcpu=arm926ej-s
 GC_SECTIONS=--gc-sections
 
-CPPFLAGS=-ffunction-sections -g -Os -Wall 	-I$(INCL) -Iinclude	\
+CPPFLAGS=-ffunction-sections -fno-stack-protector -g -Os -Wall 	-I$(INCL) -Iinclude	\
 	-DAT91BOOTSTRAP_VERSION=\"$(VERSION)\"	\
 	$(NO_DWARF_CFI_ASM) \
 	$(AT91_CUSTOM_FLAGS) 
